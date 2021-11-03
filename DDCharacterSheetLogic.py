@@ -16,6 +16,10 @@ def create_character(root):
     msgBox = tk.messagebox.askquestion("Create New Character", "Are you sure you want to create a new character? This will reset current existing data.")
     if msgBox == "yes":
         print("hi")
+        for field in root.entryFields:
+            field.delete(0, "end")
+        for field in root.textFields:
+            field.delete(1.0, "end")
 
 def load_character(root):
     characterFileInfo = filedialog.askopenfile(initialdir = "/", title = "Select a Character File", filetypes = (("CSV", "*.csv"), ))

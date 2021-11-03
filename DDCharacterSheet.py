@@ -227,6 +227,36 @@ class DDCharacterSheet:
         tip6 = Balloon(root)
         tip6.bind_widget(self.saveCharacter, balloonmsg = "Save current fields to a .csv file.")
 
+        """
+        List of fields, used by DDCharacterSheetLogic for iteration.
+        """
+        self.entryFields = [
+            self.playerNameText,
+            self.characterNameText,
+            self.genderText,
+            self.raceText,
+            self.classText,
+            self.alignmentText,
+            self.levelText,
+            self.expText,
+            self.expTextAdd,
+            self.curHpText,
+            self.totHpText,
+            self.strText,
+            self.dexText,
+            self.conText,
+            self.intText,
+            self.wisText,
+            self.chrText,
+        ]
+
+        self.textFields = [
+            self.biographyText,
+            self.equipmentText,
+            self.skillText
+        ]
+
+
 #Set root, dimensions, and title for UI window.
 root = tix.Tk()
 root.geometry("1000x925")
