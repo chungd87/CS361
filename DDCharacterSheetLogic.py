@@ -1,7 +1,13 @@
+#Author: Danny Chung
+#Date: 10/20/2021
+#Description: Dungeons and Dragons Character Sheet class. Logic behind interface.
+
 from tkinter import filedialog
 from tkinter import messagebox
-from PIL import ImageTk, Image
+from PIL import Image
+from PIL import ImageTk
 import tkinter as tk
+import os
 
 def main():
     pass
@@ -29,13 +35,10 @@ def save_character(root):
     fileName = filedialog.asksaveasfile(initialdir = "/", title = "Save Character File", filetypes = (("CSV", "*.csv"), ))
 
 def open_character_image(root):
-    imageFileInfo = filedialog.askopenfile(initialdir = "/", title = "Select a Photo", filetypes = (("Images", "*.jpeg"), ("All Files", "*.*") ))
-    imageFile = tk.PhotoImage(imageFileInfo)
-    print("hi")
-    #root.characterPicture = tk.PhotoImage(imageFileInfo)
-    #root.pictureFrame.destroy()
-    #root.picture = tk.Label(root, image = imageFile)
-    #root.picture.grid(column=2, row=25, sticky="NSEW")
+    imageFileInfo = filedialog.askopenfilename(initialdir = os.getcwd(), title = "Select a Photo", filetypes = (("Images", "*.jpg"), ("All Files", "*.*") ))
+    characterPicture = ImageTk.PhotoImage(Image.open(imageFileInfo))
+    root.pictureFrame.configure(image = characterPicture)
+    root.pictureFrame.image = characterPicture
 
 if __name__ == "__main__":
     main()

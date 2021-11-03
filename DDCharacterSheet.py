@@ -1,3 +1,7 @@
+#Author: Danny Chung
+#Date: 10/20/2021
+#Description: Dungeons and Dragons Character Sheet class, Main User Interface
+
 import tkinter as tk
 from tkinter import *
 from tkinter.tix import *
@@ -8,6 +12,9 @@ import os
 import DDCharacterSheetLogic
 
 class DDCharacterSheet:
+    """
+    Sets up user interface for Dungeons and Dragons Character Sheet.
+    """
     def __init__(self, master):
 
         #Row 0
@@ -27,7 +34,7 @@ class DDCharacterSheet:
         self.selectPhoto = tk.Button(root, command = lambda: DDCharacterSheetLogic.open_character_image(self), text ="Select a Character Photo", padx = 10, pady = 3)
         self.selectPhoto.grid(column = 2, row = 0, sticky = "S")
         tip7 = Balloon(root)
-        tip7.bind_widget(self.selectPhoto, balloonmsg = "Select a character photo from a .jpeg file. Recommended size of 200x200px.")
+        tip7.bind_widget(self.selectPhoto, balloonmsg = "Select a character photo from a .jpeg file. Recommended size of 100x100px.")
 
         #Row 1 ==============SEPARATOR==============
         self.separator = ttk.Separator(root, orient = "horizontal")
@@ -220,15 +227,16 @@ class DDCharacterSheet:
         tip6 = Balloon(root)
         tip6.bind_widget(self.saveCharacter, balloonmsg = "Save current fields to a .csv file.")
 
+#Set root, dimensions, and title for UI window.
 root = tix.Tk()
-root.geometry("1000x1025")
+root.geometry("1000x925")
+root.title("Dungeons & Dragons Character Sheet")
 
 app = DDCharacterSheet(root)
 
 #Row and Column Configuration
-
-root.rowconfigure(0, weight = 1, minsize = 200)
+root.rowconfigure(0, weight = 1, minsize = 100)
 for col in range(3):
-    root.columnconfigure(col, weight = 1, minsize = 200)
+    root.columnconfigure(col, weight = 1, minsize = 100)
 
 root.mainloop()
