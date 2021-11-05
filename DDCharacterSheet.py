@@ -55,7 +55,7 @@ class DDCharacterSheet:
         self.characterNameText = tk.Entry()
         self.characterNameText.insert(0, "Character Name")
         self.characterNameText.grid(column=1, row = 3, sticky = "W", padx = 5)
-        self.generateName = tk.Button(root, command = lambda: DDCharacterSheetLogic.generate_name(root), text = "Generate a Random Name", padx = 10, pady = 0)
+        self.generateName = tk.Button(root, command = lambda: DDCharacterSheetLogic.generate_name(self), text = "Generate a Random Name", padx = 10, pady = 0)
         self.generateName.grid(column = 1, row = 3, sticky = "E")
         tip3 = Balloon(root)
         tip3.bind_widget(self.generateName, balloonmsg = "Randomly generate a character name. Replaces current character name.")
@@ -123,9 +123,9 @@ class DDCharacterSheet:
         self.expAddLabel.grid(column=1, row = 12, sticky = "W", padx=5)
 
         #Row 13
-        self.expTextAdd = tk.Entry()
-        self.expTextAdd.insert(0, "Points to be Added")
-        self.expTextAdd.grid(column=1, row = 13, sticky = "W", padx=5)
+        self.expAddText = tk.Entry()
+        self.expAddText.insert(0, "Points to be Added")
+        self.expAddText.grid(column=1, row = 13, sticky = "W", padx=5)
         self.addExpButton = tk.Button(root, text = "Add to Total Experience Points", padx = 10)
         self.addExpButton.grid(column = 1, row = 13, sticky = "E")
         tip4 = Balloon(root)
@@ -152,7 +152,7 @@ class DDCharacterSheet:
 
         self.attrLabel = tk.Label(text = "Attributes", font = "Calibri 11 underline")
         self.attrLabel.grid(column = 0, row = 15, sticky = "E")
-        self.generateAttr = tk.Button(root, command = lambda: DDCharacterSheetLogic.generate_attr(root), text = "Generate Random Attributes", padx = 10, pady = 0)
+        self.generateAttr = tk.Button(root, command = lambda: DDCharacterSheetLogic.generate_attr(self), text = "Generate Random Attributes", padx = 10, pady = 0)
         self.generateAttr.grid(column = 1, row = 15, sticky = "W")
         tip5 = Balloon(root)
         tip5.bind_widget(self.generateAttr, balloonmsg = "Generate random attributes. Replaces all current attributes.")
@@ -222,7 +222,7 @@ class DDCharacterSheet:
         self.skillText.insert("1.0", "Attacks, Spells, Skills")
         self.skillText.grid(column = 1, row = 24, sticky = "W", padx = 5, pady = 5)
 
-        self.saveCharacter = tk.Button(root, command = lambda: DDCharacterSheetLogic.save_character(root), text = "Save Character", padx = 10, pady=3)
+        self.saveCharacter = tk.Button(root, command = lambda: DDCharacterSheetLogic.save_character(self), text = "Save Character", padx = 10, pady=3)
         self.saveCharacter.grid(column = 2, row = 24, sticky = "NSEW", padx= 5, pady = 5)
         tip6 = Balloon(root)
         tip6.bind_widget(self.saveCharacter, balloonmsg = "Save current fields to a .csv file.")
@@ -239,7 +239,7 @@ class DDCharacterSheet:
             self.alignmentText,
             self.levelText,
             self.expText,
-            self.expTextAdd,
+            self.expAddText,
             self.curHpText,
             self.totHpText,
             self.strText,
