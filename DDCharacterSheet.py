@@ -256,6 +256,10 @@ class DDCharacterSheet:
             self.skillText
         ]
 
+        """
+        Store current image path for saving and loading.
+        """
+        self.image_path = "new.jpg"
 
 #Set root, dimensions, and title for UI window.
 root = tix.Tk()

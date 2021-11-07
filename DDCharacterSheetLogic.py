@@ -11,7 +11,7 @@ import os
 import csv
 
 header = ['playerName', 'characterName', 'gender', 'race', 'class', 'alignment', 'level,', 'exp',
-          'expAdd', 'curHp', 'totHp', 'str', 'dex', 'con', 'int', 'wis', 'chr', 'bio', 'equip', 'skill']
+          'expAdd', 'curHp', 'totHp', 'str', 'dex', 'con', 'int', 'wis', 'chr', 'bio', 'equip', 'skill', 'imgDirectory']
 
 def main():
     pass
@@ -22,13 +22,11 @@ def create_character(root):
     """
     msgBox = tk.messagebox.askquestion("Create New Character", "Are you sure you want to create a new character? This will erase all existing data fields.")
     if msgBox == "yes":
-
         clear_all_fields(root)
 
         #Reset character photo to default.
-        characterPicture = ImageTk.PhotoImage(Image.open("new.jpg"))
-        root.pictureFrame.configure(image = characterPicture)
-        root.pictureFrame.image = characterPicture
+        change_image(root, "new.jpg")
+        root.image_path = "new.jpg"
 
 def load_character(root):
     """
@@ -63,6 +61,9 @@ def load_character(root):
             field.insert(1.0, characterData[j])
             j+=1
 
+    #Set photo and current image path.
+    change_image(root, characterData[j])
+
 def generate_name(root):
     msgBox = tk.messagebox.askquestion("Generate Name", "Are you sure you want to generate a new name? Current name will be lost.")
     if msgBox == "yes":
@@ -94,6 +95,11 @@ def save_character(root):
             continue
         updatedRow.append(data)
 
+    #Store current image path to the list.
+    updatedRow.append(root.image_path)
+
+    print(updatedRow)
+
     #Output the file.
     fileName = filedialog.asksaveasfilename(initialdir="/", title="Save Character File", filetypes=(("CSV", "*.csv"),))
     with open(f"{fileName}.csv", 'w', newline='', encoding='utf-8') as outputFile:
@@ -103,19 +109,26 @@ def save_character(root):
 
 def open_character_image(root):
     """
-    Load character image into UI.
+    Load character image from file and then into UI.
     """
     try:
         imageFileInfo = filedialog.askopenfilename(initialdir = os.getcwd(), title = "Select a Photo", filetypes = (("Images", "*.jpg"), ("All Files", "*.*") ))
-        characterPicture = ImageTk.PhotoImage(Image.open(imageFileInfo))
-        root.pictureFrame.configure(image = characterPicture)
-        root.pictureFrame.image = characterPicture
+        change_image(root, imageFileInfo)
+        root.image_path = imageFileInfo
     except:
         pass
 
+def change_image(root, imgDirectory):
+    """
+    Helper function for loading an image into UI.
+    """
+    characterPicture = ImageTk.PhotoImage(Image.open(imgDirectory))
+    root.pictureFrame.configure(image=characterPicture)
+    root.pictureFrame.image = characterPicture
+
 def clear_all_fields(root):
     """
-    Empty all fields in the DDCharacterSheet UI.
+    Helper function for emptying all fields in the DDCharacterSheet UI.
     """
     for field in root.entryFields:
         field.delete(0, "end")
