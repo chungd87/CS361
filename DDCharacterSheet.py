@@ -108,14 +108,18 @@ class DDCharacterSheet:
         self.levelLabel = tk.Label(text = "Level:")
         self.levelLabel.grid(column = 0, row = 10, sticky = "E")
         self.levelText = tk.Entry()
-        self.levelText.insert(0, "Level")
+        self.levelText.insert(0, 1)
+        self.levelText.configure(state = "readonly")
         self.levelText.grid(column=1, row = 10, sticky = "W", padx = 5)
 
         #Row 11
         self.expLabel = tk.Label(text = "Total Experience Points:")
         self.expLabel.grid(column = 0, row = 11, sticky = "E")
+        self.clearExpButton = tk.Button(root, command = lambda: DDCharacterSheetLogic.reset_exp(self), text = "Reset Level and Experience Points", padx = 10)
+        self.clearExpButton.grid(column = 1, row = 11, sticky = "E")
         self.expText = tk.Entry()
-        self.expText.insert(0, "Total Points")
+        self.expText.insert(0, 0)
+        self.expText.configure(state = "readonly")
         self.expText.grid(column=1, row = 11, sticky = "W", padx=5, pady = 8)
 
         #Row 12
@@ -124,9 +128,9 @@ class DDCharacterSheet:
 
         #Row 13
         self.expAddText = tk.Entry()
-        self.expAddText.insert(0, "Points to be Added")
+        self.expAddText.insert(0, "")
         self.expAddText.grid(column=1, row = 13, sticky = "W", padx=5)
-        self.addExpButton = tk.Button(root, text = "Add to Total Experience Points", padx = 10)
+        self.addExpButton = tk.Button(root, command = lambda: DDCharacterSheetLogic.update_exp(self), text = "Add to Total Experience Points", padx = 10)
         self.addExpButton.grid(column = 1, row = 13, sticky = "E")
         tip4 = Balloon(root)
         tip4.bind_widget(self.addExpButton, balloonmsg = "Click to add number in this field to Total Experience Points.")
