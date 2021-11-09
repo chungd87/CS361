@@ -39,10 +39,10 @@ def load_character(root):
     """
     Import fields from a .csv file.
     """
-    #Put 2nd row of .csv, which contains the field data, into list rowsfile.
     root.levelText.configure(state="normal")
     root.expText.configure(state="normal")
 
+    #Put 2nd row of .csv, which contains the field data, into list rowsfile.
     rowsfile = []
     characterFileInfo = filedialog.askopenfilename(initialdir = "/", title = "Select a Character File", filetypes = (("CSV", "*.csv"), ))
     with open(characterFileInfo, 'r') as inputFile:
@@ -54,7 +54,7 @@ def load_character(root):
 
     clear_all_fields(root)
 
-    #Put data from rowsfile into proper fields.
+    #Put data from rowsfile into proper fields in UI.
     j = 0
     for field in root.entryFields:
         field.insert(0, characterData[j])
@@ -74,34 +74,43 @@ def load_character(root):
     root.levelText.configure(state="readonly")
     root.expText.configure(state="readonly")
 
-    #Set photo and current image path.
+    #Set photo and image path.
     change_image(root, characterData[j])
 
 def generate_name(root):
+    """
+    Using microservice, generates a random first and last name into the Character Name field.
+    """
     msgBox = tk.messagebox.askquestion("Generate Name", "Are you sure you want to generate a new name? Current name will be lost.")
     if msgBox == "yes":
+        #Run DNDGenerator microservice as subprocess to generate a random first and last name.
         subprocess.run(["python3", "./DnDGenerator/generator.py", "-n"])
         time.sleep(0.025)  # Wait for file generation.
         with open("response.json", "r") as generatedFile:
             firstName = json.load(generatedFile)
-
         subprocess.run(["python3", "./DnDGenerator/generator.py", "-n"])
         time.sleep(0.025)  # Wait for file generation.
         with open("response.json", "r") as generatedFile:
             lastName = json.load(generatedFile)
 
+        #Combine first and last name, put in Character Name field.
         randomName = str(firstName + " " + lastName)
         root.characterNameText.delete(0, "end")
         root.characterNameText.insert(0, randomName)
 
 def generate_attr(root):
+    """
+    Using microservice, generates random attributes and inserts them in attribute fields accordingly.
+    """
     msgBox = tk.messagebox.askquestion("Generate Attributes", "Are you sure you want to generate random attributes? Current attributes will be lost.")
     if msgBox == "yes":
+        #Run DNDGenerator microservice as subprocess to generate random attributes.
         subprocess.run(["python3", "./DnDGenerator/generator.py", "-s"])
         time.sleep(0.05)  # Wait for file generation.
         with open("response.json", "r") as generatedFile:
             randomStats = json.load(generatedFile)
 
+        #Clear proper fields and place attributes into proper fields.
         root.strText.delete(0, "end")
         root.strText.insert(0, randomStats["strength"])
         root.dexText.delete(0, "end")
@@ -114,7 +123,6 @@ def generate_attr(root):
         root.wisText.insert(0, randomStats["wisdom"])
         root.chrText.delete(0, "end")
         root.chrText.insert(0, randomStats["charisma"])
-
 
 def save_character(root):
     """
@@ -160,36 +168,10 @@ def open_character_image(root):
     except:
         pass
 
-def change_image(root, imgDirectory):
-    """
-    Helper function for loading an image into UI.
-    """
-    characterPicture = ImageTk.PhotoImage(Image.open(imgDirectory))
-    root.pictureFrame.configure(image=characterPicture)
-    root.pictureFrame.image = characterPicture
-
-def clear_all_fields(root):
-    """
-    Helper function for emptying all fields in the DDCharacterSheet UI.
-    """
-    for field in root.entryFields:
-        field.delete(0, "end")
-    for field in root.textFields:
-        field.delete(1.0, "end")
-
-def reset_exp(root):
-    root.levelText.configure(state="normal")
-    root.expText.configure(state="normal")
-    root.expText.delete(0, "end")
-    root.expText.insert(0, 0)
-    root.expAddText.delete(0, "end")
-    root.expAddText.insert(0, "")
-    root.levelText.delete(0, "end")
-    root.levelText.insert(0, 1)
-    root.levelText.configure(state="readonly")
-    root.expText.configure(state="readonly")
-
 def update_exp(root):
+    """
+    Adds added experience points to total experience points, and checks for level update.
+    """
     try:
         currentExp = root.expText.get()
         addedExp = root.expAddText.get()
@@ -209,66 +191,87 @@ def update_exp(root):
     except:
         pass
 
+def change_image(root, imgDirectory):
+    """
+    Helper function for loading an image into UI.
+    """
+    characterPicture = ImageTk.PhotoImage(Image.open(imgDirectory))
+    root.pictureFrame.configure(image=characterPicture)
+    root.pictureFrame.image = characterPicture
+
+def clear_all_fields(root):
+    """
+    Helper function for emptying all fields in the DDCharacterSheet UI.
+    """
+    for field in root.entryFields:
+        field.delete(0, "end")
+    for field in root.textFields:
+        field.delete(1.0, "end")
+
+def reset_exp(root):
+    """
+    Helper function for resetting experience and level fields.
+    """
+    root.levelText.configure(state="normal")
+    root.expText.configure(state="normal")
+    root.expText.delete(0, "end")
+    root.expText.insert(0, 0)
+    root.expAddText.delete(0, "end")
+    root.expAddText.insert(0, "")
+    root.levelText.delete(0, "end")
+    root.levelText.insert(0, 1)
+    root.levelText.configure(state="readonly")
+    root.expText.configure(state="readonly")
+
+def level_number(root, number):
+    """
+    Helper function for changing the number in character's level field.
+    """
+    root.levelText.delete(0, "end")
+    root.levelText.insert(0, number)
+
 def update_level(root, totalExp):
+    """
+    Update level field according to level breakpoints.
+    """
     if totalExp >= 300:
-        root.levelText.delete(0, "end")
-        root.levelText.insert(0, 2)
+        level_number(root, 2)
     if totalExp >= 900:
-        root.levelText.delete(0, "end")
-        root.levelText.insert(0, 3)
+        level_number(root, 3)
     if totalExp >= 2700:
-        root.levelText.delete(0, "end")
-        root.levelText.insert(0, 4)
+        level_number(root, 4)
     if totalExp >= 6500:
-        root.levelText.delete(0, "end")
-        root.levelText.insert(0, 5)
+        level_number(root, 5)
     if totalExp >= 14000:
-        root.levelText.delete(0, "end")
-        root.levelText.insert(0, 6)
+        level_number(root, 6)
     if totalExp >= 23000:
-        root.levelText.delete(0, "end")
-        root.levelText.insert(0, 7)
+        level_number(root, 7)
     if totalExp >= 34000:
-        root.levelText.delete(0, "end")
-        root.levelText.insert(0, 8)
+        level_number(root, 8)
     if totalExp >= 48000:
-        root.levelText.delete(0, "end")
-        root.levelText.insert(0, 9)
+        level_number(root, 9)
     if totalExp >= 64000:
-        root.levelText.delete(0, "end")
-        root.levelText.insert(0, 10)
+        level_number(root, 10)
     if totalExp >= 85000:
-        root.levelText.delete(0, "end")
-        root.levelText.insert(0, 11)
+        level_number(root, 11)
     if totalExp >= 100000:
-        root.levelText.delete(0, "end")
-        root.levelText.insert(0, 12)
+        level_number(root, 12)
     if totalExp >= 120000:
-        root.levelText.delete(0, "end")
-        root.levelText.insert(0, 13)
+        level_number(root, 13)
     if totalExp >= 140000:
-        root.levelText.delete(0, "end")
-        root.levelText.insert(0, 14)
+        level_number(root, 14)
     if totalExp >= 165000:
-        root.levelText.delete(0, "end")
-        root.levelText.insert(0, 15)
+        level_number(root, 15)
     if totalExp >= 195000:
-        root.levelText.delete(0, "end")
-        root.levelText.insert(0, 16)
+        level_number(root, 16)
     if totalExp >= 225000:
-        root.levelText.delete(0, "end")
-        root.levelText.insert(0, 17)
+        level_number(root, 17)
     if totalExp >= 265000:
-        root.levelText.delete(0, "end")
-        root.levelText.insert(0, 18)
+        level_number(root, 18)
     if totalExp >= 305000:
-        root.levelText.delete(0, "end")
-        root.levelText.insert(0, 19)
+        level_number(root, 19)
     if totalExp >= 355000:
-        root.levelText.delete(0, "end")
-        root.levelText.insert(0, 20)
-
-
+        level_number(root, 20)
 
 if __name__ == "__main__":
     main()
