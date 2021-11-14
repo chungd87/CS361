@@ -8,7 +8,7 @@ from tkinter.tix import *
 from tkinter import tix
 from tkinter import ttk
 from PIL import ImageTk, Image
-import os
+from tkinter.scrolledtext import ScrolledText
 import DDCharacterSheetLogic
 
 class DDCharacterSheet:
@@ -94,7 +94,7 @@ class DDCharacterSheet:
         self.biographyFrame.grid_propagate(False)
         self.biographyLabel = tk.Label(text = "Biography:")
         self.biographyLabel.grid(column = 0, row = 8, sticky = "NE")
-        self.biographyText = tk.Text(self.biographyFrame)
+        self.biographyText = ScrolledText(self.biographyFrame, width = 50, height = 6)
         self.biographyText.insert("1.0", "Biographical text.")
         self.biographyText.grid(column = 1, columnspan = 2, row = 8, sticky = "WEN", padx = 5)
 
@@ -215,14 +215,14 @@ class DDCharacterSheet:
         self.equipmentFrame = tk.Frame(root, width = 300, height = 200, pady = 5)
         self.equipmentFrame.grid(column = 0, row = 24, sticky = "W")
         self.equipmentFrame.grid_propagate(False)
-        self.equipmentText = tk.Text(self.equipmentFrame)
+        self.equipmentText = ScrolledText(self.equipmentFrame, width = 33, height = 11)
         self.equipmentText.insert("1.0", "Equipment")
         self.equipmentText.grid(column = 0, row = 24, sticky = "W", padx = 5, pady = 5)
 
         self.skillFrame = tk.Frame(root, width = 300, height = 200, pady = 5)
         self.skillFrame.grid(column = 1, row = 24, sticky = "W")
         self.skillFrame.grid_propagate(False)
-        self.skillText = tk.Text(self.skillFrame)
+        self.skillText = ScrolledText(self.skillFrame, width = 33, height = 11)
         self.skillText.insert("1.0", "Attacks, Spells, Skills")
         self.skillText.grid(column = 1, row = 24, sticky = "W", padx = 5, pady = 5)
 
