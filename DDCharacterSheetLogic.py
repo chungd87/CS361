@@ -191,6 +191,38 @@ def update_exp(root):
     except:
         pass
 
+def adjustPoint(root, attribute, adjustment):
+    attributeDictionary = {
+        "str": root.strText,
+        "dex": root.dexText,
+        "con": root.conText,
+        "int": root.intText,
+        "wis": root.wisText,
+        "chr": root.chrText
+    }
+    attributeValue = attributeDictionary[attribute].get()
+
+    if adjustment == "+":
+        try:
+            attributeValue = int(attributeValue) + 1
+            attributeDictionary[attribute].delete(0, "end")
+            attributeDictionary[attribute].insert(0, attributeValue)
+        except:
+            attributeValue = 0
+            attributeDictionary[attribute].delete(0, "end")
+            attributeDictionary[attribute].insert(0, attributeValue)
+
+    if adjustment == "-":
+        try:
+            attributeValue = int(attributeValue) - 1
+            attributeDictionary[attribute].delete(0, "end")
+            attributeDictionary[attribute].insert(0, attributeValue)
+        except:
+            attributeValue = 0
+            attributeDictionary[attribute].delete(0, "end")
+            attributeDictionary[attribute].insert(0, attributeValue)
+
+
 def change_image(root, imgDirectory):
     """
     Helper function for loading an image into UI.
@@ -234,44 +266,32 @@ def update_level(root, totalExp):
     """
     Update level field according to level breakpoints.
     """
-    if totalExp >= 300:
-        level_number(root, 2)
-    if totalExp >= 900:
-        level_number(root, 3)
-    if totalExp >= 2700:
-        level_number(root, 4)
-    if totalExp >= 6500:
-        level_number(root, 5)
-    if totalExp >= 14000:
-        level_number(root, 6)
-    if totalExp >= 23000:
-        level_number(root, 7)
-    if totalExp >= 34000:
-        level_number(root, 8)
-    if totalExp >= 48000:
-        level_number(root, 9)
-    if totalExp >= 64000:
-        level_number(root, 10)
-    if totalExp >= 85000:
-        level_number(root, 11)
-    if totalExp >= 100000:
-        level_number(root, 12)
-    if totalExp >= 120000:
-        level_number(root, 13)
-    if totalExp >= 140000:
-        level_number(root, 14)
-    if totalExp >= 165000:
-        level_number(root, 15)
-    if totalExp >= 195000:
-        level_number(root, 16)
-    if totalExp >= 225000:
-        level_number(root, 17)
-    if totalExp >= 265000:
-        level_number(root, 18)
-    if totalExp >= 305000:
-        level_number(root, 19)
-    if totalExp >= 355000:
-        level_number(root, 20)
+    levelBreakpointsDictionary = {
+        0 : 1,
+        300 : 2,
+        900 : 3,
+        2700 : 4,
+        6500 : 5,
+        14000 : 6,
+        23000 : 7,
+        34000 : 8,
+        48000 : 9,
+        64000 : 10,
+        85000 : 11,
+        100000 : 12,
+        120000 : 13,
+        140000 : 14,
+        165000 : 15,
+        195000 : 16,
+        225000 : 17,
+        265000 : 18,
+        305000 : 19,
+        355000 : 20
+    }
+
+    for experience in levelBreakpointsDictionary:
+        if totalExp >= experience:
+            level_number(root, levelBreakpointsDictionary[experience])
 
 if __name__ == "__main__":
     main()
