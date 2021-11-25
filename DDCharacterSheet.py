@@ -148,7 +148,7 @@ class DDCharacterSheet:
         self.totHpText.insert(0, "Total HP")
         self.totHpText.grid(column=2, row = 14, sticky = "W", padx = 5, pady = 8)
 
-        #Row 15
+        #Row 15 ==============SEPARATOR==============
         self.separator3 = ttk.Separator(root, orient = "horizontal")
         self.separator3.grid(column = 0 , row = 15, columnspan = 2, sticky = "EW")
         self.blankSpace2 = tk.Label(text = "")
@@ -222,7 +222,7 @@ class DDCharacterSheet:
         self.addChr = tk.Button(root, command=lambda: DDCharacterSheetLogic.adjustPoint(self, "chr", "+"), text="+", padx=5, pady=0)
         self.addChr.grid(column = 2, row = 21, sticky = "W")
 
-        #Row 22
+        #Row 22 ==============SEPARATOR==============
         self.separator4 = ttk.Separator(root, orient = "horizontal")
         self.separator4.grid(column = 0 , row = 22, columnspan = 1, sticky = "EW")
         self.blankSpace2 = tk.Label(text = "")
@@ -236,17 +236,17 @@ class DDCharacterSheet:
         self.skillLabel.grid(column = 1, row = 23, sticky = "W")
 
         #Row 24
-        self.equipmentFrame = tk.Frame(root, width = 300, height = 200, pady = 5)
+        self.equipmentFrame = tk.Frame(root, width = 300, height = 100, pady = 5)
         self.equipmentFrame.grid(column = 0, row = 24, sticky = "W")
         self.equipmentFrame.grid_propagate(False)
-        self.equipmentText = ScrolledText(self.equipmentFrame, width = 33, height = 11)
+        self.equipmentText = ScrolledText(self.equipmentFrame, width = 33, height = 5)
         self.equipmentText.insert("1.0", "Equipment")
         self.equipmentText.grid(column = 0, row = 24, sticky = "W", padx = 5, pady = 5)
 
-        self.skillFrame = tk.Frame(root, width = 300, height = 200, pady = 5)
+        self.skillFrame = tk.Frame(root, width = 300, height = 100, pady = 5)
         self.skillFrame.grid(column = 1, row = 24, sticky = "W")
         self.skillFrame.grid_propagate(False)
-        self.skillText = ScrolledText(self.skillFrame, width = 33, height = 11)
+        self.skillText = ScrolledText(self.skillFrame, width = 33, height = 5)
         self.skillText.insert("1.0", "Attacks, Spells, Skills")
         self.skillText.grid(column = 1, row = 24, sticky = "W", padx = 5, pady = 5)
 
@@ -291,7 +291,7 @@ class DDCharacterSheet:
 
 #Set root, dimensions, and title for UI window.
 root = tix.Tk()
-root.geometry("1000x940")
+root.geometry("1000x850")
 root.title("Dungeons & Dragons Character Sheet")
 
 app = DDCharacterSheet(root)
