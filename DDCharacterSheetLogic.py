@@ -192,6 +192,10 @@ def update_exp(root):
         pass
 
 def adjustPoint(root, attribute, adjustment):
+    """
+    Enables usage of + and - buttons to increment and decrement attribute points.
+    """
+    #attributeDictionary for which button on the UI is clicked for each attribute.
     attributeDictionary = {
         "str": root.strText,
         "dex": root.dexText,
@@ -202,6 +206,7 @@ def adjustPoint(root, attribute, adjustment):
     }
     attributeValue = attributeDictionary[attribute].get()
 
+    #Increment or reset field to 0 if there is anything other than an int in the field currently.
     if adjustment == "+":
         try:
             attributeValue = int(attributeValue) + 1
@@ -212,6 +217,7 @@ def adjustPoint(root, attribute, adjustment):
             attributeDictionary[attribute].delete(0, "end")
             attributeDictionary[attribute].insert(0, attributeValue)
 
+    #Decrement or reset field to 0 if there is anything other than an int in the field currently.
     if adjustment == "-":
         try:
             attributeValue = int(attributeValue) - 1
