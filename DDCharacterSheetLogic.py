@@ -35,47 +35,53 @@ def create_character(root):
         change_image(root, "new.jpg")
         root.image_path = "new.jpg"
 
+    reset_exp(root)
+
 def load_character(root):
     """
     Import fields from a .csv file.
     """
-    root.levelText.configure(state="normal")
-    root.expText.configure(state="normal")
+    try:
+        #Put 2nd row of .csv, which contains the field data, into list rowsfile.
+        rowsfile = []
+        characterFileInfo = filedialog.askopenfilename(initialdir = "/", title = "Select a Character File", filetypes = (("CSV", "*.csv"), ))
+        with open(characterFileInfo, 'r') as inputFile:
+            fileContent = csv.reader(inputFile, delimiter = ',', skipinitialspace = True)
+            for rows in fileContent:
+                rowsfile.append(rows)
 
-    #Put 2nd row of .csv, which contains the field data, into list rowsfile.
-    rowsfile = []
-    characterFileInfo = filedialog.askopenfilename(initialdir = "/", title = "Select a Character File", filetypes = (("CSV", "*.csv"), ))
-    with open(characterFileInfo, 'r') as inputFile:
-        fileContent = csv.reader(inputFile, delimiter = ',', skipinitialspace = True)
-        for rows in fileContent:
-            rowsfile.append(rows)
+            characterData = rowsfile[1]
 
-        characterData = rowsfile[1]
+        root.levelText.configure(state="normal")
+        root.expText.configure(state="normal")
 
-    clear_all_fields(root)
+        clear_all_fields(root)
 
-    #Put data from rowsfile into proper fields in UI.
-    j = 0
-    for field in root.entryFields:
-        field.insert(0, characterData[j])
-        j+=1
-    for field in root.textFields:
-        if "\\n" in characterData[j]:
-            print(characterData[j])
-            newData = characterData[j].replace("\\n", "\n")
-            print(newData)
-            field.insert(1.0, newData)
+        #Put data from rowsfile into proper fields in UI.
+        j = 0
+        for field in root.entryFields:
+            field.insert(0, characterData[j])
             j+=1
-            continue
-        else:
-            field.insert(1.0, characterData[j])
-            j+=1
+        for field in root.textFields:
+            if "\\n" in characterData[j]:
+                print(characterData[j])
+                newData = characterData[j].replace("\\n", "\n")
+                print(newData)
+                field.insert(1.0, newData)
+                j+=1
+                continue
+            else:
+                field.insert(1.0, characterData[j])
+                j+=1
 
-    root.levelText.configure(state="readonly")
-    root.expText.configure(state="readonly")
+        root.levelText.configure(state="readonly")
+        root.expText.configure(state="readonly")
 
-    #Set photo and image path.
-    change_image(root, characterData[j])
+        #Set photo and image path.
+        change_image(root, characterData[j])
+
+    except:
+        pass
 
 def generate_name(root):
     """
