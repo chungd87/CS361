@@ -3,7 +3,6 @@
 #Description: Dungeons and Dragons Character Sheet class. Logic behind interface.
 
 from tkinter import filedialog
-from tkinter import messagebox
 from PIL import Image
 from PIL import ImageTk
 import tkinter as tk
@@ -58,27 +57,27 @@ def load_character(root):
         clear_all_fields(root)
 
         #Put data from rowsfile into proper fields in UI.
-        j = 0
+        index_variable = 0
         for field in root.entryFields:
-            field.insert(0, characterData[j])
-            j+=1
+            field.insert(0, characterData[index_variable])
+            index_variable+=1
         for field in root.textFields:
-            if "\\n" in characterData[j]:
-                print(characterData[j])
-                newData = characterData[j].replace("\\n", "\n")
+            if "\\n" in characterData[index_variable]:
+                print(characterData[index_variable])
+                newData = characterData[index_variable].replace("\\n", "\n")
                 print(newData)
                 field.insert(1.0, newData)
-                j+=1
+                index_variable+=1
                 continue
             else:
-                field.insert(1.0, characterData[j])
-                j+=1
+                field.insert(1.0, characterData[index_variable])
+                index_variable+=1
 
         root.levelText.configure(state="readonly")
         root.expText.configure(state="readonly")
 
         #Set photo and image path.
-        change_image(root, characterData[j])
+        change_image(root, characterData[index_variable])
 
     except:
         pass
