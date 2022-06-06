@@ -5,3 +5,8 @@ Dungeons and Dragons Character Sheet Tracker.
 - Appropriately increments levels based on D&D breakpoints.
 <br><br>
 ![DnDProgram](https://user-images.githubusercontent.com/67284108/171346445-c00f61cd-6362-4933-9c72-27157faedb84.gif)
+
+
+## Technologies Used
+- Python 3.9
+- TKinter
